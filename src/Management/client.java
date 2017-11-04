@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 import Management.print;
+import Management.course;
+
 public class client {
 	//  Database info and credentials
 	protected static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
@@ -35,7 +37,10 @@ public class client {
 				String sql = "SELECT Password from Student WHERE ID = "  + id;
 				ResultSet rs = stmt.executeQuery(sql);
 				if (rs.next() && password.equals(rs.getString("Password"))) {
-					menu(id);
+					if (menu(id) == 0) {
+						print.print("System end");
+						return;
+					}
 				} else {
 					print.print("wrong id or password");
 					continue;
@@ -60,10 +65,39 @@ public class client {
 			}//end try
 		}
 	}
-	private static void menu(String id) {
+	private static int menu(String id) {
+		course cur_course = new course(id);
+		print.print("Hello, id:" + id);
+		print.print("The courses currenlty enrolled are :\n");
 		while (true) {
-			print.print("hello, id:" + id);
-			System.out.println("The courses currenlty enrolled are :\n");
+			print.print("Select a option:");
+			print.print("1 -> Trancscript");
+			print.print("2 -> Enroll");
+			print.print("3 -> Withdraw");
+			print.print("4 -> Personal Detail");
+			print.print("Please type the option you want, type q for quite");
+			Scanner sc = new Scanner(System.in);
+			String option = sc.nextLine();
+			switch(option) {
+			case "1":
+				print.print("Transcript");
+				break;
+			case "2":
+				print.print("Entroll");
+				break;
+			case "3":
+				print.print("Withdraw");
+				break;
+			case "4":
+				print.print("Personal Detail");
+				break;
+			case "q":
+				print.print("Thank you for using this system, bye~");
+				return 1;
+			default:
+				print.print("Please choose the right option");
+				break;
+			}
 		}
 	}
 	
