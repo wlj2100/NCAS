@@ -1,4 +1,4 @@
-package Management;
+package ncas;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
-import Management.print;
-import Management.course;
-import Management.transcript;
+
+import ncas.print;
+import ncas.transcript;
 
 
 

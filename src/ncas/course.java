@@ -1,4 +1,4 @@
-package Management;
+package ncas;
 
 public class course {
 	private static final String JDBC_DRIVER = client.JDBC_DRIVER;  
