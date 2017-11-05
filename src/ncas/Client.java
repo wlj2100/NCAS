@@ -10,11 +10,11 @@ import java.util.Date;
 import java.util.Scanner;
 
 import ncas.print;
-import ncas.transcript;
+import ncas.Transcript;
 
 
 
-public class client {
+public class Client {
 	//  Database info and credentials
 	protected static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	protected static final String DB_URL = "jdbc:mysql://localhost:3306/project3-nudb";
@@ -34,9 +34,9 @@ public class client {
 			String password = sc2.nextLine();
 			String sql = "SELECT Password from Student WHERE ID = "  + id;
 			try {
-				Class.forName(client.JDBC_DRIVER);  
+				Class.forName(Client.JDBC_DRIVER);  
 				Connection con = DriverManager.getConnection(  
-				client.DB_URL, client.USER, client.PASS);   
+				Client.DB_URL, Client.USER, Client.PASS);   
 				Statement stmt = con.createStatement();  
 				ResultSet rs = stmt.executeQuery(sql); 
 				boolean exit = false;
@@ -58,7 +58,7 @@ public class client {
 	private static boolean menu(String id) {
 		print.print("Hello, id:" + id);
 		while (true) {
-			course cur_course = new course(id);
+			Course cur_course = new Course(id);
 			print.print("The courses currenlty enrolled are :\n");
 			
 			print.print("Select a option:");
@@ -72,7 +72,7 @@ public class client {
 			switch(option) {
 			case "1":
 				print.print("Transcript");
-				transcript tranObj = new transcript(id);
+				Transcript tranObj = new Transcript(id);
 				tranObj.menu();
 				break;
 			case "2":

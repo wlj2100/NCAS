@@ -3,13 +3,13 @@ package ncas;
 import java.util.*;
 import java.sql.*;
 
-public class transcript {
+public class Transcript {
 	private String id;
 	private String transcript = null;
 	private static final String WELCOME = "Your transcript detail:";
 	private static final String TRANSCRIPT_SQL = "select T.uoscode,T.grade from transcript T where T.StudId = ";
 	private static final String COURSE_SQL = "select U.uoscode,US.uosname,U.year,U.semester,U.enrollment,U.maxenrollment,F.name,T.grade from faculty F,uosoffering U natural join transcript T natural join unitofstudy US where F.id = U.InstructorId and uoscode ='";
-	public transcript(String id) {
+	public Transcript(String id) {
 		this.id = id;
 	}
 	public void menu() {
@@ -44,9 +44,9 @@ public class transcript {
 		StringBuilder sb = new StringBuilder();
 		String sql = COURSE_SQL + courseNum + "'and T.StudId = " +id;
 		try {
-			Class.forName(client.JDBC_DRIVER);  
+			Class.forName(Client.JDBC_DRIVER);  
 			Connection con = DriverManager.getConnection(  
-			client.DB_URL, client.USER, client.PASS);   
+			Client.DB_URL, Client.USER, Client.PASS);   
 			Statement stmt = con.createStatement();  
 			ResultSet rs = stmt.executeQuery(sql); 
 // the course number and title, 
@@ -81,9 +81,9 @@ public class transcript {
 		String sql = TRANSCRIPT_SQL + id;
 		StringBuilder sb = new StringBuilder();
 		try {
-			Class.forName(client.JDBC_DRIVER);  
+			Class.forName(Client.JDBC_DRIVER);  
 			Connection con = DriverManager.getConnection(  
-			client.DB_URL, client.USER, client.PASS);   
+			Client.DB_URL, Client.USER, Client.PASS);   
 			Statement stmt = con.createStatement();  
 			ResultSet rs = stmt.executeQuery(sql); 
 			while(rs.next()) {
