@@ -10,6 +10,9 @@ import java.util.Date;
 import java.util.Scanner;
 import Management.print;
 import Management.course;
+import Management.transcript;
+
+
 
 public class client {
 	//  Database info and credentials
@@ -29,58 +32,48 @@ public class client {
 			print.print("Enter Password:");
 			Scanner sc2 = new Scanner(System.in);
 			String password = sc2.nextLine();
+			String sql = "SELECT Password from Student WHERE ID = "  + id;
 			try {
-				Class.forName(JDBC_DRIVER);
-				print.print("connect to database");
-				conn = DriverManager.getConnection(DB_URL, USER, PASS);
-				stmt = conn.createStatement();
-				String sql = "SELECT Password from Student WHERE ID = "  + id;
-				ResultSet rs = stmt.executeQuery(sql);
+				Class.forName(client.JDBC_DRIVER);  
+				Connection con = DriverManager.getConnection(  
+				client.DB_URL, client.USER, client.PASS);   
+				Statement stmt = con.createStatement();  
+				ResultSet rs = stmt.executeQuery(sql); 
+				boolean exit = false;
 				if (rs.next() && password.equals(rs.getString("Password"))) {
-					if (menu(id) == 0) {
-						print.print("System end");
-						return;
-					}
+					exit = menu(id);
 				} else {
-					print.print("wrong id or password");
-					continue;
+					print.print("wrong password");
 				}
-			} catch(SQLException se){
-				//Handle errors for JDBC
-			    se.printStackTrace();
-			}catch(Exception e){
-			    //Handle errors for Class.forName
-			    e.printStackTrace();
-			}finally{
-			    //finally block used to close resources
-			    try{
-			    		if(stmt!=null) stmt.close();
-			    }catch(SQLException se2){
-			    }// nothing we can do
-			    try{
-			    		if(conn!=null) conn.close(); 
-			    	} catch(SQLException se){
-			    		se.printStackTrace();
-			    }//end finally try
-			}//end try
+				con.close();
+				if (exit) break;
+			} catch (Exception e) {
+				print.print("wrong id");
+				break;
+			}
 		}
+		print.print("System end");
+		System.exit(0);
 	}
-	private static int menu(String id) {
-		course cur_course = new course(id);
+	private static boolean menu(String id) {
 		print.print("Hello, id:" + id);
-		print.print("The courses currenlty enrolled are :\n");
 		while (true) {
+			course cur_course = new course(id);
+			print.print("The courses currenlty enrolled are :\n");
+			
 			print.print("Select a option:");
 			print.print("1 -> Trancscript");
 			print.print("2 -> Enroll");
 			print.print("3 -> Withdraw");
 			print.print("4 -> Personal Detail");
-			print.print("Please type the option you want, type q for quite");
+			print.print("Please type the option you want, type q for quit");
 			Scanner sc = new Scanner(System.in);
-			String option = sc.nextLine();
+			String option = sc.nextLine().toLowerCase();
 			switch(option) {
 			case "1":
 				print.print("Transcript");
+				transcript tranObj = new transcript(id);
+				tranObj.menu();
 				break;
 			case "2":
 				print.print("Entroll");
@@ -93,13 +86,14 @@ public class client {
 				break;
 			case "q":
 				print.print("Thank you for using this system, bye~");
-				return 1;
+				return false;
+			case "exit":
+				print.print("System shut dowm");
+				return true;
 			default:
 				print.print("Please choose the right option");
 				break;
 			}
 		}
 	}
-	
-
 }
