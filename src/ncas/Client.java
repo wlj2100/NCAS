@@ -19,7 +19,7 @@ public class Client {
 	protected static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	protected static final String DB_URL = "jdbc:mysql://localhost:3306/project3-nudb";
 	protected static final String USER = "root";
-	protected static final String PASS = "";
+	protected static final String PASS = "w369h258b";
 	private static Connection conn = null;
 	private static Statement stmt = null;
 	public static void main(String[] args) {
@@ -48,7 +48,7 @@ public class Client {
 				con.close();
 				if (exit) break;
 			} catch (Exception e) {
-				print.print("wrong id");
+				print.print("wrong id or database access error");
 				break;
 			}
 		}
@@ -59,10 +59,11 @@ public class Client {
 		while (true) {
 			print.print("Hello, id:" + id);
 			print.print("The courses currenlty enrolled are :\n");
+
 			Course cur_course = new Course(id);
 			cur_course.current_course();
 			print.print("Select a option:");
-			print.print("1 -> Trancscript");
+			print.print("1 -> Transcript");
 			print.print("2 -> Enroll");
 			print.print("3 -> Withdraw");
 			print.print("4 -> Personal Detail");
@@ -76,10 +77,12 @@ public class Client {
 				tranObj.menu();
 				break;
 			case "2":
-				print.print("Entroll");
+				print.print("Enroll");
 				break;
 			case "3":
 				print.print("Withdraw");
+				withdraw w = new withdraw(id);
+				w.drop();
 				break;
 			case "4":
 				print.print("Personal Detail");
@@ -88,7 +91,7 @@ public class Client {
 				print.print("Thank you for using this system, bye~");
 				return false;
 			case "exit":
-				print.print("System shut dowm");
+				print.print("System shut down");
 				return true;
 			default:
 				print.print("Please choose the right option");
