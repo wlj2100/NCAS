@@ -1,0 +1,7 @@
+delimiter //
+create procedure withdraw(in code char(8), in id int(8), in currentyear int(8), in currentquarter char(2))
+begin
+	delete from transcript where StudId = id and UoSCode = code and Year = currentyear and semester = currentquarter;
+    update uosoffering set Enrollment = Enrollment - 1 where UoSCode = code and Year = currentyear and semester = currentquarter;
+end; //
+delimiter ;
