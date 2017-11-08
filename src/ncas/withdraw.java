@@ -19,10 +19,8 @@ public class withdraw {
         withdraw a = new withdraw(student_id);
         a.show_available_course();
         String code = input.get("Please input the code of the course to be dropped:");
-        String year = input.get("Please input the year of the course to be dropped:");
-        String quarter = input.get("Please input the quarter of the course to be dropped:");
         if (a.check_access(code)){
-            a.withdraw_sql(code, year, quarter);
+            a.withdraw_sql(code);
             System.out.println("The course has been withdrawn!");
         }
         else {
@@ -81,7 +79,7 @@ public class withdraw {
         }
     }
 
-    public void withdraw_sql (String code, String year, String quarter) {
+    public void withdraw_sql (String code) {
         Connection conn = null;
         Statement stmt = null;
         try{
@@ -90,8 +88,8 @@ public class withdraw {
             stmt = conn.createStatement();
 
             String transcript_sql, uosoffering_sql;
-            transcript_sql = "delete from transcript where StudId = " + student_id + " and UoSCode = '" + code + "' and year = " + year + " and semester = '" + quarter + "'";
-            uosoffering_sql = "update uosoffering set Enrollment = Enrollment - 1 where UoSCode = '" + code + "' and year = " + year + " and semester = '" + quarter + "'";
+            transcript_sql = "delete from transcript where StudId = " + student_id + " and UoSCode = '" + code + "'";
+            uosoffering_sql = "update uosoffering set Enrollment = Enrollment - 1 where UoSCode = '" + code + "'";
             System.out.println(transcript_sql);
             System.out.println(uosoffering_sql);
             PreparedStatement pstmt = conn.prepareStatement(transcript_sql);
