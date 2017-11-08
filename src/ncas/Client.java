@@ -19,8 +19,7 @@ public class Client {
 	protected static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	protected static final String DB_URL = "jdbc:mysql://localhost:3306/project3-nudb";
 	protected static final String USER = "root";
-//	protected static final String PASS = "w369h258b";
-	protected static final String PASS = "";
+	protected static final String PASS = "w369h258b";
 	private static Connection conn = null;
 	private static Statement stmt = null;
 	public static void main(String[] args) {

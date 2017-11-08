@@ -16,11 +16,11 @@ public class withdraw {
         this.student_id = student_id;
     }
     public void drop () {
-        show_available_course();
-        String code = input.get("Please input the code of the course to be dropped (q for quit): ");
-        if (code.equals("q")) return;
-        if (check_access(code)){
-            withdraw_sql(code);
+        withdraw a = new withdraw(student_id);
+        a.show_available_course();
+        String code = input.get("Please input the code of the course to be dropped:");
+        if (a.check_access(code)){
+            a.withdraw_sql(code);
             System.out.println("The course has been withdrawn!");
         }
         else {
