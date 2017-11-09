@@ -19,9 +19,12 @@ public class withdraw {
         withdraw a = new withdraw(student_id);
         a.show_available_course();
         String code = input.get("Please input the code of the course to be dropped:");
+        String year = input.get("Please input the year of the course to be dropped:");
+        String quarter = input.get("Please input the quarter of the course to be dropped:");
         if (a.check_access(code)){
-            a.withdraw_sql(code);
+            a.withdraw_sql(code, year, quarter);
             System.out.println("The course has been withdrawn!");
+            check_max(code, year, quarter);
         }
         else {
             System.out.println("You don't have the access to withdraw the course!");
@@ -79,7 +82,7 @@ public class withdraw {
         }
     }
 
-    public void withdraw_sql (String code) {
+    public void withdraw_sql (String code, String year, String quarter) {
         Connection conn = null;
         Statement stmt = null;
         try{
@@ -87,17 +90,19 @@ public class withdraw {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             stmt = conn.createStatement();
 
-            String transcript_sql, uosoffering_sql;
-            transcript_sql = "delete from transcript where StudId = " + student_id + " and UoSCode = '" + code + "'";
-            uosoffering_sql = "update uosoffering set Enrollment = Enrollment - 1 where UoSCode = '" + code + "'";
-            System.out.println(transcript_sql);
-            System.out.println(uosoffering_sql);
-            PreparedStatement pstmt = conn.prepareStatement(transcript_sql);
-            PreparedStatement pstmt2 = conn.prepareStatement(uosoffering_sql);
-            pstmt.executeUpdate();
-            pstmt2.executeUpdate();
-
-
+            String sql = "call withdraw('" + code + "', " + student_id + ", "+ year + ", '" + quarter + "')";
+            System.out.println(sql);
+            //String transcript_sql, uosoffering_sql;
+            //transcript_sql = "delete from transcript where StudId = " + student_id + " and UoSCode = '" + code + "' and year = " + year + " and semester = '" + quarter + "'";
+            //uosoffering_sql = "update uosoffering set Enrollment = Enrollment - 1 where UoSCode = '" + code + "' and year = " + year + " and semester = '" + quarter + "'";
+            //System.out.println(transcript_sql);
+            //System.out.println(uosoffering_sql);
+            //PreparedStatement pstmt = conn.prepareStatement(transcript_sql);
+            //PreparedStatement pstmt2 = conn.prepareStatement(uosoffering_sql);
+            //pstmt.executeUpdate();
+            //pstmt2.executeUpdate();
+            ResultSet rs = stmt.executeQuery(sql);
+            rs.close();
             stmt.close();
             conn.close();
         }
@@ -117,6 +122,9 @@ public class withdraw {
                 e3.printStackTrace();
             }
         }
+
+
+
     }
 
     public boolean check_access (String code) {
@@ -163,5 +171,50 @@ public class withdraw {
             }
         }
         return access;
+    }
+
+    public void check_max(String code, String year, String quarter) {
+        Connection conn = null;
+        Statement stmt = null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+
+            stmt = conn.createStatement();
+            String sql;
+            sql = "SELECT UoSCode, Semester , Year from belowMaxEnrollment Where UoSCode = '" + code + "';";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()){
+                String year1 = rs.getString("Year");
+                String quarter1 = rs.getString("Semester");
+                if (year1.equals(year) && quarter1.equals(quarter)){
+                    System.out.println("Warning: The number of enrollment of this course is below 50%!");
+                }
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            se.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }
+            try{
+                if(conn!=null)
+                    conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        System.out.println("check max completed");
     }
 }
