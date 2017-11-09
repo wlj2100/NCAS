@@ -56,10 +56,9 @@ public class Client {
 		System.exit(0);
 	}
 	private static boolean menu(String id) {
+		print.print("Hello, id:" + id);
 		while (true) {
-			print.print("Hello, id:" + id);
-			print.print("The courses currenlty enrolled are :\n");
-
+			print.print("The courses currently enrolled are :\n");
 			Course cur_course = new Course(id);
 			cur_course.current_course();
 			print.print("Select a option:");
