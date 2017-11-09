@@ -85,7 +85,9 @@ public class print {
 	}
 	public static void print(Map<?, ?> map) {
 		for (Map.Entry<?, ?> entry : map.entrySet()) {
-			print(entry);
+			System.out.print(entry.getKey().toString());
+			System.out.print(" : ");
+			System.out.println(entry.getValue().toString());
 		}
 	}
 	public static void print(Object[] objs) {
