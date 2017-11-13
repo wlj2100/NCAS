@@ -19,7 +19,7 @@ public class Client {
 	protected static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	protected static final String DB_URL = "jdbc:mysql://localhost:3306/project3-nudb";
 	protected static final String USER = "root";
-	protected static final String PASS = "w369h258b";
+	protected static final String PASS = "9473";
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		///
@@ -77,6 +77,8 @@ public class Client {
 				break;
 			case "2":
 				print.print("Enroll");
+				Enrollment enObj = new Enrollment(id);
+				enObj.menu();
 				break;
 			case "3":
 				print.print("Withdraw");
@@ -85,6 +87,8 @@ public class Client {
 				break;
 			case "4":
 				print.print("Personal Detail");
+				PersonalDetail pdObj = new PersonalDetail(id);
+				pdObj.menu();
 				break;
 			case "q":
 				print.print("Thank you for using this system, bye~");
