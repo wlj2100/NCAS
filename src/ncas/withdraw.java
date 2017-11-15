@@ -23,11 +23,11 @@ public class withdraw {
         String quarter = input.get("Please input the quarter of the course to be dropped:");
         if (a.check_access(code)){
             a.withdraw_sql(code, year, quarter);
-            System.out.println("The course has been withdrawn!");
+            System.out.println("Withdraw request is sent!");
             check_max(code, year, quarter);
         }
         else {
-            System.out.println("You don't have the access to withdraw the course!");
+            System.out.println("You don't have the access to withdraw the course or course does not exist!");
         }
 
 
@@ -64,7 +64,8 @@ public class withdraw {
             conn.close();
         }
         catch(Exception e1){
-            e1.printStackTrace();
+            //e1.printStackTrace();
+            System.out.println(e1);
         }
         finally{
             try{
@@ -77,7 +78,8 @@ public class withdraw {
                 if(conn!=null)
                     conn.close();
             }catch(Exception e3){
-                e3.printStackTrace();
+                //e3.printStackTrace();
+                System.out.println(e3);
             }
         }
     }
@@ -107,7 +109,8 @@ public class withdraw {
             conn.close();
         }
         catch(Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println(e);
         }finally{
             try{
                 if(stmt!=null)
@@ -119,7 +122,8 @@ public class withdraw {
                 if(conn!=null)
                     conn.close();
             }catch(SQLException e3){
-                e3.printStackTrace();
+                //e3.printStackTrace();
+                System.out.println(e3);
             }
         }
 
@@ -153,7 +157,8 @@ public class withdraw {
             conn.close();
         }
         catch(Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println(e);
         }
         finally{
             try{
@@ -167,7 +172,8 @@ public class withdraw {
                     conn.close();
             }
             catch(SQLException e3){
-                e3.printStackTrace();
+                //e3.printStackTrace();
+                System.out.println(e3);
             }
         }
         return access;
@@ -199,9 +205,11 @@ public class withdraw {
             stmt.close();
             conn.close();
         }catch(SQLException se){
-            se.printStackTrace();
+            //se.printStackTrace();
+            System.out.println(se);
         }catch(Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println(e);
         }finally{
             try{
                 if(stmt!=null)
@@ -212,7 +220,8 @@ public class withdraw {
                 if(conn!=null)
                     conn.close();
             }catch(SQLException se){
-                se.printStackTrace();
+                //se.printStackTrace();
+                System.out.println(se);
             }
         }
         System.out.println("check max completed");
